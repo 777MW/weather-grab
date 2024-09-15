@@ -1,9 +1,15 @@
 import requests
 
-#open meteo URL
+#API URL
 api_url = "https://api.open-meteo.com/v1/forecast"
 
-# Placeholder weather data
-response = requests.get(api_url)
+# Added parameters for NYC
+params = {
+    "latitude": 40.7128,
+    "longitude": -74.0060
+}
 
-print(f"Response status: {response.status_code}")
+# Fetch weather data
+response = requests.get(api_url, params=params)
+
+print(f"Response status code: {response.status_code}")
