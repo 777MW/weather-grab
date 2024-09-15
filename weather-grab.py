@@ -1,3 +1,9 @@
-# Placeholder for weather data fetch application and saving
+import requests
 
-print("Weather Data Fetch Script here")
+#open meteo URL
+api_url = "https://api.open-meteo.com/v1/forecast"
+
+# Placeholder weather data
+response = requests.get(api_url)
+
+print(f"Response status: {response.status_code}")
