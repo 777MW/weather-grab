@@ -1,17 +1,27 @@
 import requests
+import json
+
+latitude = float(input("Enter the latitude: "))
+longitude = float(input("Enter the longitude: "))
+
 #API URL
 api_url = "https://api.open-meteo.com/v1/forecast"
 #NYC latitude and longitude
 params = {
-    "latitude": 40.7128,
-    "longitude": -74.0060
+    "latitude": latitude,
+    "longitude": longitude,
+    "hourly": "temperature_2m",
+    "current_weather": True
 }
 # Fetch weather data
-response = requests.get(api_url, params=params)
-
-#check for successful response
-if response.status_code == 200:
+try:
+    response = requests.get(api_url, params=params)
+    response.raise_for_status()
     weather_data = response.json()
-    print(weather_data)  # Print the raw JSON data
-else:
-    print(f"Failed to retrieve weather data. Status code: {response.status_code}")
+    
+    # Write weather data to a file
+    with open("weather_data.txt", "w") as file:
+        file.write("Weather Data:\n")
+        file.write(json.dumps(weather_data, indent=4))
+except requests.exceptions.RequestException as e:
+    print(f"An error occurred: {e}")
